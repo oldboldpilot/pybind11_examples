@@ -57,7 +57,7 @@ The pybind11 module (which is header only!) is included as a submodule of this r
 *   The simplest option is:
 
     ```bash
-    git clone --recursive https://github.com/tdegeus/pybind11_examples.git
+    git clone --recursive https://github.com/oldboldpilot/pybind11_examples.git
     ```
 
     This will download the submodule up to the version that is used in this project. To update to the latest commit of the submodule itself:
