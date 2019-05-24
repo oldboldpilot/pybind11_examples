@@ -9,8 +9,8 @@ IF(APPLE)
 ENDIF()
 
 IF (MSVC)
-    pybind11_add_module(processGraph SHARED
-		ProcessGraph.cpp
+    pybind11_add_module(example SHARED
+		example.cpp
 	)
 ELSE()
   find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
@@ -18,10 +18,10 @@ ELSE()
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
 
 
-    #pybind11_add_module(processGraph SHARED
+    #pybind11_add_module(example SHARED
 		#${_HDRS}
 		#${TBB_LIBRARIES}
-		# ProcessGraph.cpp
+		# example.cpp
 	  # )
 
 ENDIF()
@@ -29,7 +29,7 @@ ENDIF()
 #### Additional pybind11 stuff!
  
 #post build command 
-	add_custom_command(TARGET processGraph POST_BUILD
-			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:processGraph>  ${PROJECT_SOURCE_DIR}
+	add_custom_command(TARGET example POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:example>  ${PROJECT_SOURCE_DIR}
 			)
 
