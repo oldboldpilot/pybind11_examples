@@ -8,8 +8,8 @@
 #include <algorithm>
 #include <Python.h>
 #include <utility>
-using namespace pybind11
-using namespace tbb:
+using namespace pybind11;
+using namespace tbb;
 
 
 // ----------------

@@ -19,8 +19,8 @@ include_directories(${PYTHON_INCLUDE_DIR})
 add_subdirectory(pybind11)
 add_subdirectory(tbb)
 #pybind11_add_module(example example.cpp)
-#include_directories("${CMAKE_SOURCE_DIR}/tbb/include")
-#include_directories("${CMAKE_SOURCE_DIR}/pybind11/")
+include_directories("${CMAKE_SOURCE_DIR}/tbb/include")
+include_directories("${CMAKE_SOURCE_DIR}/pybind11/")
 
 # IF(APPLE)
 #     set_target_properties(processGraph PROPERTIES PREFIX ".dylib" )
@@ -34,16 +34,12 @@ IF (MSVC)
 	example.cpp
 	)
 ELSE()
-  find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
+  #find_package(TBB)
 
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
 
 
-    pybind11_add_module(example SHARED
-		${_HDRS}
-		${TBB_LIBRARIES}
-		example.cpp
-	  )
+    pybind11_add_module(example ${_HDRS}	${TBB_LIBRARIES} example.cpp )
 
 ENDIF()
 
