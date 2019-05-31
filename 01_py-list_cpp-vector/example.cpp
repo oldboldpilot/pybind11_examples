@@ -10,6 +10,7 @@
 #include <utility>
 using namespace pybind11;
 using namespace tbb;
+using namespace std;
 
 
 // ----------------
@@ -29,15 +30,19 @@ std::vector<double> modify(const std::vector<double>& input)
     std::back_inserter(output),
     [](double x) -> double { return 2.*x; }
   );
+}
 
-  // N.B. this is equivalent to (but there are also other ways to do the same)
-  //
-  // std::vector<double> output(input.size());
-  //
-  // for ( size_t i = 0 ; i < input.size() ; ++i )
-  //   output[i] = 2. * input[i];
-
+std::vector<double> change(const std::vector<double> & input)
+{
+  
+  size_t n = (size_t) input.size();
+  std::vector<double> output(n);
+  PyEval_InitThreads ;
+  Py_BEGIN_ALLOW_THREADS;
+  tbb::parallel_for(size_t(0), n, [&](size_t i) {output[i]=input[i]*2.0;});
+  Py_END_ALLOW_THREADS;
   return output;
+
 }
 
 // ----------------
@@ -51,4 +56,5 @@ PYBIND11_MODULE(example,m)
   m.doc() = "pybind11 example plugin";
 
   m.def("modify", &modify, "Multiply all entries of a list by 2.0");
+  m.def("change",&change,"test parallel_for");
 }
