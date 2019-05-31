@@ -5,9 +5,16 @@ if(MSVC)
 else()
   	set(PYBIND11_CPP_STANDARD -std=c++1z)
 endif()
+if(APPLE)
+	set(PYTHON_INCLUDE_DIR "/anaconda3/include/python3.6m")
+	set(PYTHON_LIBRARIES "/anaconda3/lib")
+	set(PYTHON_LIBRARY "/anaconda3/lib/libpython3.6m.dylib")
+endif()
 
 set(CMAKE_BUILD_TYPE "RELEASE")
-find_package(PythonLibs)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
+
+find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIR})
 add_subdirectory(pybind11)
 add_subdirectory(tbb)
@@ -22,8 +29,7 @@ add_subdirectory(tbb)
 IF (MSVC)
 	find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
-  pybind11_add_module(example SHARED
-	${_HDRS}
+  pybind11_add_module(example ${_HDRS}
 	${TBB_LIBRARIES}
 	example.cpp
 	)
