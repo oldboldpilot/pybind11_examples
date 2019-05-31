@@ -1,6 +1,16 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <vector>
+#include <tbb/concurrent_unordered_map.h>
+#include <tbb/concurrent_vector.h>
+#include <tbb/parallel_for.h>
+#include <iostream>
+#include <algorithm>
+#include <Python.h>
+#include <utility>
+using namespace pybind11
+using namespace tbb:
+
 
 // ----------------
 // Regular C++ code
