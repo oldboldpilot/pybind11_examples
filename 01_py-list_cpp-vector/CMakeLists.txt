@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(example)
-
+find_package(PythonLibs)
+include_directories(${PYTHON_INCLUDE_DIR})
 add_subdirectory(pybind11)
 add_subdirectory(tbb)
 #pybind11_add_module(example example.cpp)
@@ -12,7 +13,6 @@ add_subdirectory(tbb)
 
 IF (MSVC)
 	find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
-	find_package(PythonLibs)
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
   pybind11_add_module(example SHARED
 	${_HDRS}
@@ -21,7 +21,7 @@ IF (MSVC)
 	)
 ELSE()
   find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
-	find_package(PythonLibs)
+
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
 
 
