@@ -37,10 +37,11 @@ std::vector<double> change(const std::vector<double> & input)
   
   size_t n = (size_t) input.size();
   std::vector<double> output(n);
-  PyEval_InitThreads ;
-  Py_BEGIN_ALLOW_THREADS;
+  PyEval_InitThreads();
+	Py_BEGIN_ALLOW_THREADS
+
   tbb::parallel_for(size_t(0), n, [&](size_t i) {output[i]=input[i]*2.0;});
-  Py_END_ALLOW_THREADS;
+  Py_END_ALLOW_THREADS
   return output;
 
 }
