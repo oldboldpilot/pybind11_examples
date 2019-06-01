@@ -30,6 +30,7 @@ std::vector<double> modify(const std::vector<double>& input)
     std::back_inserter(output),
     [](double x) -> double { return 2.*x; }
   );
+  return output;
 }
 
 std::vector<double> change(const std::vector<double> & input)
