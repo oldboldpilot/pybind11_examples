@@ -18,13 +18,19 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 
 find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIR})
+
+set(TBB_ROOT_DIR    "${CMAKE_SOURCE_DIR}/tbb")
+set(TBB_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/tbb/include")
+set(TBB_INCLUDE_DIRS    "/${CMAKE_SOURCE_DIR}/tbb/include")
+set(TBB_LIBRARY    "${CMAKE_SOURCE_DIR}/tbb/Release/libtbb.dll")
+list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbb.dll")
+list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbbmalloc.dll")
+list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbbmalloc_proxy.dll")
+
 add_subdirectory(pybind11)
-add_subdirectory(tbb)
-set(TBB_ROOT_DIR    "${CMAKE_SOURCE_DIR}tbb")
-    set(TBB_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/tbb/include")
-    set(TBB_INCLUDE_DIRS    "/${CMAKE_SOURCE_DIR}/tbb/include")
-    set(TBB_LIBRARY    "${CMAKE_SOURCE_DIR}/tbb/Release/libtbb.lib")
-	find_package(TBB COMPONENTS tbbmalloc )
+#add_subdirectory(tbb)
+
+find_package(TBB COMPONENTS tbbmalloc )
 include_directories("${CMAKE_SOURCE_DIR}/tbb/include")
 include_directories("${CMAKE_SOURCE_DIR}/pybind11/")
 
@@ -33,7 +39,7 @@ include_directories("${CMAKE_SOURCE_DIR}/pybind11/")
 # ENDIF()
 
 IF (MSVC)
-	#find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
+	
 	find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
   pybind11_add_module(example ${_HDRS}
@@ -46,12 +52,12 @@ ELSE()
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
 
 
-    pybind11_add_module(example ${_HDRS} example.cpp )
+    pybind11_add_module(example ${_HDRS}  example.cpp )
 
 ENDIF()
 #target_include_directories(example PRIVATE ${TBB_INCLUDE_DIRS})
 #target_compile_definitions(example  PRIVATE ${TBB_DEFINITIONS})
-#target_link_libraries(example ${TBB_LIBRARIES})
+target_link_libraries(example ${TBB_LIBRARIES})
 
 
 #### Additional pybind11 stuff!
