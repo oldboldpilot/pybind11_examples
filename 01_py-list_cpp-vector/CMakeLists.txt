@@ -44,9 +44,9 @@ ELSE()
     pybind11_add_module(example ${_HDRS} example.cpp )
 
 ENDIF()
-target_include_directories(example PRIVATE ${TBB_INCLUDE_DIRS})
-target_compile_definitions(example  PRIVATE ${TBB_DEFINITIONS})
-target_link_libraries(example ${TBB_LIBRARIES})
+#target_include_directories(example PRIVATE ${TBB_INCLUDE_DIRS})
+#target_compile_definitions(example  PRIVATE ${TBB_DEFINITIONS})
+#target_link_libraries(example ${TBB_LIBRARIES})
 
 
 #### Additional pybind11 stuff!
