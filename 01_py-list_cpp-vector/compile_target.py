@@ -13,8 +13,8 @@ def compile()->None:
     cmk_build_command:List[str] = []
 
     if str(platform.system()).upper().strip() in set(["WINDOWS"]):
-        cmk_generator_command = ['cmake', '-G', 'Visual Studio 16 2019','-A','-x64' ,'.']
-        cmk_build_command =['cmake','--build', '.', '--config', 'Debug']
+        cmk_generator_command = ['cmake', '-G', 'Visual Studio 16 2019','-A','x64' ,'.']
+        cmk_build_command =['cmake','--build', '.', '--config', 'Release']
     elif str(platform.system()).upper().strip() in set(["DARWIN"]):
         cmk_generator_command = ['cmake', '.']
         cmk_build_command = ['cmake', '--build', '.', '--config', 'Release']

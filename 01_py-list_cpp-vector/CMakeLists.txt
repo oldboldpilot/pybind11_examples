@@ -29,7 +29,8 @@ include_directories("${CMAKE_SOURCE_DIR}/pybind11/")
 # ENDIF()
 
 IF (MSVC)
-	find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
+	#find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
+	find_package(TBB)
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
   pybind11_add_module(example ${_HDRS}
 	${TBB_LIBRARIES}
