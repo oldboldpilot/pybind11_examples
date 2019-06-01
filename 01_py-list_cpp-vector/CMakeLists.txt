@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 project(example)
 if(MSVC)
-	set(PYBIND11_CPP_STANDARD /std:c++17)
+	set(PYBIND11_CPP_STANDARD /std:c++14)
 else()
-		set(PYBIND11_CPP_STANDARD -std=c++1z)
+		set(PYBIND11_CPP_STANDARD -std=c++14)
 		#add -ltbb to compile/link command line
 		#set (CMAKE_CXX_FLAGS "-ltbb")
 endif()
@@ -23,16 +23,19 @@ set(TBB_ROOT_DIR    "${CMAKE_SOURCE_DIR}/tbb")
 set(TBB_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/tbb/include")
 set(TBB_INCLUDE_DIRS    "/${CMAKE_SOURCE_DIR}/tbb/include")
 if(MSVC)
-set(TBB_LIBRARY    "${CMAKE_SOURCE_DIR}/tbb/Release/libtbb.dll")
-list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbb.dll")
-list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbbmalloc.dll")
-list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbbmalloc_proxy.dll")
+	set(TBB_LIBRARY    "${CMAKE_SOURCE_DIR}/tbb/Release/libtbb.dll")
+	list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbb.dll")
+	list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbbmalloc.dll")
+	list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbbmalloc_proxy.dll")
+
 elseif(APPLE)
 	set(TBB_LIBRARY    "${CMAKE_SOURCE_DIR}/tbb/Release/libtbb.dylib")
 	list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbb.dylib")
 	list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbbmalloc.dylib")
 	list(APPEND TBB_LIBRARIES  "${CMAKE_SOURCE_DIR}/tbb/Release/libtbbmalloc_proxy.dylib")
+	
 endif()
+link_directories("${TBB_ROOT_DIR}/Release")
 add_subdirectory(pybind11)
 add_subdirectory(tbb)
 
@@ -48,8 +51,7 @@ IF (MSVC)
 	
 	find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
-  pybind11_add_module(example ${_HDRS}
-	${TBB_LIBRARIES}
+  pybind11_add_module(example SHARED ${_HDRS}
 	example.cpp
 	)
 ELSE()
@@ -58,12 +60,12 @@ ELSE()
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
 
 
-    pybind11_add_module(example ${_HDRS}  example.cpp )
+    pybind11_add_module(example SHARED ${_HDRS}  example.cpp )
 
 ENDIF()
 #target_include_directories(example PRIVATE ${TBB_INCLUDE_DIRS})
 #target_compile_definitions(example  PRIVATE ${TBB_DEFINITIONS})
-target_link_libraries(example ${TBB_LIBRARIES})
+target_link_libraries(example PRIVATE ${TBB_LIBRARIES})
 
 
 #### Additional pybind11 stuff!
