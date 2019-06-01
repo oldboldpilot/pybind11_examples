@@ -20,7 +20,11 @@ find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIR})
 add_subdirectory(pybind11)
 add_subdirectory(tbb)
-#pybind11_add_module(example example.cpp)
+set(TBB_ROOT_DIR    "${CMAKE_SOURCE_DIR}tbb")
+    set(TBB_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}tbb/include")
+    set(TBB_INCLUDE_DIRS    "/${CMAKE_SOURCE_DIR}tbb/include")
+    set(TBB_LIBRARY    "${CMAKE_SOURCE_DIR}tbb/libtbb.dll")
+	find_package(TBB COMPONENTS tbbmalloc )
 include_directories("${CMAKE_SOURCE_DIR}/tbb/include")
 include_directories("${CMAKE_SOURCE_DIR}/pybind11/")
 
@@ -30,7 +34,7 @@ include_directories("${CMAKE_SOURCE_DIR}/pybind11/")
 
 IF (MSVC)
 	#find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
-	find_package(TBB)
+	find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy)
 	file(GLOB_RECURSE _HDRS "${CMAKE_SOURCE_DIR}/tbb/include")
   pybind11_add_module(example ${_HDRS}
 	${TBB_LIBRARIES}
