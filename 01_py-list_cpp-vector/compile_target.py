@@ -3,12 +3,14 @@ import re
 import subprocess
 from typing import Tuple,Dict,List, Any
 import platform
+from pathlib2 import Path
 
 def run_command(cmds:List[str])->None:
     subprocess.run(cmds)
     return None
 
 def compile()->None:
+    os.chdir(Path(__file__).parent)
     cmk_generator_command: List[str]= []
     cmk_build_command:List[str] = []
 

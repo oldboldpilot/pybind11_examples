@@ -1,22 +1,22 @@
 cmake_minimum_required(VERSION 3.0)
 project(example)
 if(MSVC)
-	set(PYBIND11_CPP_STANDARD /std:c++14)
+	set(PYBIND11_CPP_STANDARD /std:c++17)
 else()
-		set(PYBIND11_CPP_STANDARD -std=c++14)
+		set(PYBIND11_CPP_STANDARD -std=c++17)
 		#add -ltbb to compile/link command line
 		#set (CMAKE_CXX_FLAGS "-ltbb")
 endif()
 if(APPLE)
-	set(PYTHON_INCLUDE_DIR "/anaconda3/include/python3.6m")
+	set(PYTHON_INCLUDE_DIR "/anaconda3/include/python3.7m")
 	set(PYTHON_LIBRARIES "/anaconda3/lib")
-	set(PYTHON_LIBRARY "/anaconda3/lib/libpython3.6m.dylib")
+	set(PYTHON_LIBRARY "/anaconda3/lib/libpython3.7m.dylib")
 endif()
 
 set(CMAKE_BUILD_TYPE "RELEASE")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 
-find_package(PythonLibs 3 REQUIRED)
+find_package(PythonLibs 3.7 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIR})
 
 set(TBB_ROOT_DIR    "${CMAKE_SOURCE_DIR}/tbb")
